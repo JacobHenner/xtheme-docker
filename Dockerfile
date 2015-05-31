@@ -11,6 +11,7 @@ RUN apt-get update && \
     git submodule update --init && \
     ./configure --prefix=/atheme --disable-nls && \
     make && make install && \
+    chmod -R 700 /atheme && chown -R atheme /atheme && \ 
     apt-get purge -y build-essential git
 
 VOLUME ["/atheme/etc"]
