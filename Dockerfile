@@ -3,19 +3,20 @@ FROM ubuntu:14.04
 MAINTAINER Jacob Henner <code@ventricle.us>
 
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential libssl-dev libssl1.0.0 openssl pkg-config git && \
-    useradd -u 10000 -d /atheme/ atheme && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential libssl-dev libssl1.0.0 openssl pkg-config git
+RUN useradd -u 10000 -d /xtheme/ xtheme && \
     cd /tmp && \
-    git clone https://github.com/atheme/atheme && \
-    cd /tmp/atheme && \
+    git clone https://github.com/XthemeOrg/Xtheme && \
+    cd /tmp/Xtheme && \
+    git checkout tags/7.3.5 && \
     git submodule update --init && \
-    ./configure --prefix=/atheme --disable-nls && \
+    ./configure --prefix=/xtheme --disable-nls && \
     make && make install && \
-    chmod -R 700 /atheme && chown -R atheme /atheme && \ 
-    apt-get purge -y build-essential git
+    chmod -R 700 /xtheme && chown -R xtheme /xtheme
+RUN apt-get purge -y build-essential git && apt-get autoremove -y
 
-VOLUME ["/atheme/etc"]
+VOLUME ["/xtheme/etc"]
 
-USER atheme
+USER xtheme
 
-CMD ["/atheme/bin/atheme-services", "-n"]
+CMD ["/xtheme/bin/xtheme-services", "-n"]
